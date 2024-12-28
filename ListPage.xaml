@@ -3,25 +3,57 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FilipAndreiLab7.ListPage"
              Title="ListPage">
-    <StackLayout Margin="20">
-        <Editor 
-            Placeholder="Enter the description of the shopping list"
-            Text="{Binding Description}"
-            HeightRequest="100" />
-        
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <ContentPage.Content xmlns:local="clr-namespace:FilipAndreiLab7">
+        <StackLayout Margin="20">
+            <Editor 
+                Placeholder="Enter the description of the shopping list"
+                Text="{Binding Description}"
+                HeightRequest="50">
+
+                <Editor.Behaviors>
+                    <local:ValidationBehaviour />
+                </Editor.Behaviors>
+                
+            </Editor>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
             
-            <Button 
-                Text="Save"
-                Clicked="OnSaveButtonClicked" />
+                <Button 
+                    Text="Save"
+                    Clicked="OnSaveButtonClicked" />
             
-            <Button Grid.Column="1"
-                Text="Delete"
-                Clicked="OnDeleteButtonClicked"/>
-        </Grid>
-    </StackLayout>
+                <Button Grid.Column="1"
+                    Text="Delete"
+                    Clicked="OnDeleteButtonClicked"/>
+            </Grid>
+
+            <ListView 
+                x:Name="listView"
+                Margin="20">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Detail="{Binding Description}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button 
+                    Text="Add/Choose Item to buy" 
+                    Clicked="OnChooseButtonClicked"/>
+
+                <Button Grid.Column="1"
+                    Text="Delete Item"
+                    Clicked="OnDeleteItemButtonClicked"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>
