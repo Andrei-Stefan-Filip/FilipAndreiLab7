@@ -12,12 +12,29 @@ namespace FilipAndreiLab7.Data
     public class ShoppingListDatabase
     {
         readonly SQLiteAsyncConnection _database;
-        public ShoppingListDatabase(string dbPath) 
+        public ShoppingListDatabase(string dbPath)
         {
             _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTableAsync<ShopList>().Wait();
             _database.CreateTableAsync<Product>().Wait();
             _database.CreateTableAsync<ListProduct>().Wait();
+            _database.CreateTableAsync<Shop>().Wait();
+        }
+
+        public Task<List<Shop>> GetShopsAsync()
+        {
+            return _database.Table<Shop>().ToListAsync();
+        }
+        public Task<int> SaveShopAsync(Shop shop)
+        {
+            if (shop.ID != 0)
+            {
+                return _database.UpdateAsync(shop);
+            }
+            else
+            {
+                return _database.InsertAsync(shop);
+            }
         }
 
         public Task<int> SaveProductAsync(Product product)
@@ -99,5 +116,11 @@ namespace FilipAndreiLab7.Data
             return _database.DeleteAsync(listProduct);
         }
 
+
+
+        public Task<int> DeleteShopAsync(Shop shop)
+        {
+            return _database.DeleteAsync(shop);
+        }
     }
 }
